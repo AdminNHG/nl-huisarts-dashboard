@@ -30,8 +30,28 @@
     .progress-wrap { margin-top: 16px; }
     .progress-bar-bg { height: 6px; background: #f0f4ff; border-radius: 99px; overflow: hidden; margin-top: 4px; }
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0057b8, #0a9396); border-radius: 99px; width: 0%; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .table-wrap { max-width: 900px; margin: 0 auto; background: #ffffff; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; }
+    .table-search { padding: 16px 20px; border-bottom: 1px solid #f0f2f5; display: flex; align-items: center; gap: 10px; }
+    .table-search input { flex: 1; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #1a1a2e; outline: none; transition: border-color 0.15s; }
+    .table-search input:focus { border-color: #0057b8; }
+    .table-search input::placeholder { color: #c4c9d4; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    thead th { background: #f8fafc; padding: 12px 20px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #9ca3af; border-bottom: 1px solid #e5e7eb; cursor: pointer; user-select: none; white-space: nowrap; }
+    thead th:hover { color: #0057b8; }
+    thead th.sort-asc::after { content: " ↑"; color: #0057b8; }
+    thead th.sort-desc::after { content: " ↓"; color: #0057b8; }
+    tbody tr { border-bottom: 1px solid #f3f4f6; transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+    tbody td { padding: 13px 20px; color: #374151; }
+    tbody td:first-child { font-weight: 600; color: #0d1b2a; }
+    .td-num { text-align: center; font-weight: 700; color: #0057b8; }
+    .row-num { color: #d1d5db; font-size: 0.8rem; font-weight: 400; min-width: 28px; }
+    .location-badge { display: inline-block; background: #f0f4ff; color: #3b5ea6; border-radius: 6px; padding: 2px 8px; font-size: 0.78rem; font-weight: 500; }
+    .table-footer { padding: 12px 20px; border-top: 1px solid #f0f2f5; font-size: 0.75rem; color: #9ca3af; text-align: right; }
     footer { max-width: 900px; margin: 48px auto 0; text-align: center; font-size: 0.75rem; color: #c4c9d4; }
-    footer a { color: #9ca3af; text-decoration: none; } footer a:hover { text-decoration: underline; }
+    footer a { color: #9ca3af; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -75,10 +95,44 @@
     <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div></div>
   </div>
 </div>
+<div class="section-title">Accepted GPs Overview</div>
+<div class="table-wrap">
+  <div class="table-search"><input type="text" id="gp-search" placeholder="Zoek op naam of locatie…" oninput="filterTable()" /></div>
+  <table id="gp-table">
+    <thead><tr>
+      <th class="row-num">#</th>
+      <th onclick="sortTable(1)" id="th-name">Full Name</th>
+      <th onclick="sortTable(2)" id="th-location">Location</th>
+      <th onclick="sortTable(3)" id="th-referrals" style="text-align:center;">Referrals</th>
+    </tr></thead>
+    <tbody id="gp-tbody"></tbody>
+  </table>
+  <div class="table-footer" id="table-footer">35 GPs</div>
+</div>
 <footer>Nordic Health Group &nbsp;·&nbsp; <a href="https://dripify.io" target="_blank" rel="noopener">Dripify</a> data &nbsp;·&nbsp; Last updated: <span id="footerDate"></span></footer>
 <script>
-  window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById("progress-fill").style.width="20.1%"},300)});
-  const now=new Date(),opts={day:"numeric",month:"long",year:"numeric"},dateStr=now.toLocaleDateString("nl-NL",opts);
+  const GPs=[{name:"Piet Lodewijkx",location:"Breda-Tilburg Area",referrals:0},{name:"Bob Van Riel",location:"Brabantine City Row",referrals:0},{name:"Richard Hoeben",location:"Oisterwijk",referrals:0},{name:"Leon Delmore Buirs",location:"Amsterdam",referrals:0},{name:"Claudia Schreurs",location:"'s-Hertogenbosch",referrals:0},{name:"Ida Smailbegović",location:"Eindhoven",referrals:0},{name:"Laura Van Iersel",location:"Eindhoven",referrals:0},{name:"Freek Teller",location:"Brabantine City Row",referrals:0},{name:"Amon Alemyar",location:"Rotterdam",referrals:0},{name:"André De Gruijl",location:"Rotterdam and The Hague",referrals:0},{name:"Mieke Wolfs",location:"The Randstad",referrals:0},{name:"Judith Van De Sande",location:"The Randstad",referrals:0},{name:"Jacco Kraak",location:"Putten",referrals:0},{name:"Robin Heijnis",location:"Breda-Tilburg Area",referrals:0},{name:"Nienke Kessels",location:"Eindhoven",referrals:0},{name:"Mohammed Saadulla",location:"'s-Hertogenbosch Area",referrals:0},{name:"Kris Linssen",location:"Roermond",referrals:0},{name:"Mohamed Ahmed",location:"Amsterdam",referrals:0},{name:"Laura Vandermaesen",location:"'s-Hertogenbosch Area",referrals:0},{name:"Thomas Van Ede",location:"The Randstad",referrals:0},{name:"Bregje Siebelt - Van Schijndel",location:"Boxtel",referrals:0},{name:"Ronald De Haas",location:"Drecht Cities",referrals:0},{name:"Sabine Van Dijk",location:"The Hague",referrals:0},{name:"Jeroen Vogelaar",location:"'s-Hertogenbosch",referrals:0},{name:"Inga Rehbein",location:"'s-Hertogenbosch",referrals:0},{name:"Christian De Groot",location:"Son en Breugel",referrals:0},{name:"Chris Otten",location:"Leiden",referrals:0},{name:"Claudine Van Lith",location:"Deventer",referrals:0},{name:"Saskia Thomassen",location:"Eindhoven",referrals:0},{name:"Ludie Breugelmans",location:"Steenbergen",referrals:0},{name:"Ad Ahh Sanders",location:"Tilburg",referrals:0},{name:"Nanja Danhof",location:"Utrecht",referrals:0},{name:"Bernard Leenstra",location:"The Randstad",referrals:0},{name:"Margreeth Worp- Van Den Berg",location:"The Randstad",referrals:0},{name:"Mirjam Mathot",location:"Utrecht",referrals:0}];
+  let sortCol=0,sortDir=1,filtered=[...GPs];
+  function renderTable(data){
+    document.getElementById("gp-tbody").innerHTML=data.map((gp,i)=>'<tr><td class="row-num">'+(i+1)+'</td><td>'+gp.name+'</td><td><span class="location-badge">'+gp.location+'</span></td><td class="td-num">'+gp.referrals+'</td></tr>').join("");
+    document.getElementById("table-footer").textContent=data.length===GPs.length?GPs.length+" GPs":data.length+" van "+GPs.length+" GPs";
+  }
+  function filterTable(){
+    const q=document.getElementById("gp-search").value.toLowerCase();
+    filtered=GPs.filter(gp=>gp.name.toLowerCase().includes(q)||gp.location.toLowerCase().includes(q));
+    renderTable(filtered);
+  }
+  function sortTable(col){
+    const ids=["","th-name","th-location","th-referrals"];
+    document.querySelectorAll("thead th").forEach(th=>th.classList.remove("sort-asc","sort-desc"));
+    if(sortCol===col){sortDir=-sortDir;}else{sortCol=col;sortDir=1;}
+    document.getElementById(ids[col]).classList.add(sortDir===1?"sort-asc":"sort-desc");
+    filtered.sort((a,b)=>{const keys=["","name","location","referrals"];const key=keys[col];if(a[key]<b[key])return -sortDir;if(a[key]>b[key])return sortDir;return 0;});
+    renderTable(filtered);
+  }
+  renderTable(GPs);
+  window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById("progress-fill").style.width="20.1%";},300);});
+  const now=new Date();const opts={day:"numeric",month:"long",year:"numeric"};const dateStr=now.toLocaleDateString("nl-NL",opts);
   document.getElementById("lastUpdated").textContent="Bijgewerkt: "+dateStr;
   document.getElementById("footerDate").textContent=dateStr;
 </script>
