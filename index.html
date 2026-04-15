@@ -6,83 +6,23 @@
   <title>NL Huisarts Dashboard – Dripify</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #f4f6f9;
-      color: #1a1a2e;
-      min-height: 100vh;
-      padding: 40px 24px 60px;
-    }
-
-    header {
-      max-width: 960px;
-      margin: 0 auto 36px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo-badge {
-      width: 44px; height: 44px;
-      background: #0057b8;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; min-height: 100vh; padding: 40px 24px 60px; }
+    header { max-width: 960px; margin: 0 auto 36px; display: flex; align-items: center; gap: 16px; }
+    .logo-badge { width: 44px; height: 44px; background: #0057b8; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .logo-badge svg { width: 26px; height: 26px; fill: #fff; }
-
     .header-text h1 { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.3px; color: #0d1b2a; }
     .header-text p  { font-size: 0.85rem; color: #6b7280; margin-top: 2px; }
-
     .last-updated { margin-left: auto; font-size: 0.78rem; color: #9ca3af; text-align: right; white-space: nowrap; }
-
-    /* ---- Section labels ---- */
-    .section-title {
-      max-width: 960px;
-      margin: 40px auto 16px;
-      font-size: 0.8rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.8px;
-      color: #9ca3af;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 8px;
-    }
-
-    /* ---- KPI grid ---- */
-    .grid {
-      max-width: 960px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 28px 24px 22px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
+    .section-title { max-width: 960px; margin: 40px auto 16px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #9ca3af; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
+    .grid { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 14px; padding: 28px 24px 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease; }
     .card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
-
-    .card::before {
-      content: "";
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 4px; border-radius: 14px 14px 0 0;
-    }
+    .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 14px 14px 0 0; }
     .card.blue::before   { background: #0057b8; }
     .card.teal::before   { background: #0a9396; }
     .card.green::before  { background: #2a9d4f; }
     .card.orange::before { background: #e07b39; }
-
-    .card-icon {
-      width: 38px; height: 38px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 16px;
-    }
+    .card-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
     .card.blue   .card-icon { background: #e8f0fb; }
     .card.teal   .card-icon { background: #e0f5f5; }
     .card.green  .card-icon { background: #e6f5ec; }
@@ -92,77 +32,31 @@
     .card.green  .card-icon svg { stroke: #2a9d4f; }
     .card.orange .card-icon svg { stroke: #e07b39; }
     .card-icon svg { width: 20px; height: 20px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
     .card-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #9ca3af; margin-bottom: 8px; }
-
     .card-value { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; line-height: 1; color: #0d1b2a; }
     .card-value.pending { color: #d1d5db; font-size: 2rem; }
-
     .card-sub { margin-top: 8px; font-size: 0.78rem; color: #9ca3af; }
-
-    .delta {
-      display: inline-flex; align-items: center; gap: 3px;
-      font-size: 0.78rem; font-weight: 600;
-      padding: 2px 7px; border-radius: 20px;
-      margin-top: 8px;
-    }
+    .delta { display: inline-flex; align-items: center; gap: 3px; font-size: 0.78rem; font-weight: 600; padding: 2px 7px; border-radius: 20px; margin-top: 8px; }
     .delta.up   { background: #ecfdf3; color: #15803d; }
     .delta.down { background: #fef2f2; color: #dc2626; }
     .delta svg  { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-
-    /* ---- Trend charts ---- */
-    .charts-grid {
-      max-width: 960px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-      gap: 20px;
-    }
-
-    .chart-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 24px 24px 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
-    }
-
+    .charts-grid { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px; }
+    .chart-card { background: #fff; border-radius: 14px; padding: 24px 24px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); }
     .chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
     .chart-title  { font-size: 0.85rem; font-weight: 700; color: #374151; }
     .chart-subtitle { font-size: 0.72rem; color: #9ca3af; margin-top: 2px; }
-
     .chart-wrap { position: relative; }
     canvas { display: block; width: 100% !important; }
-
-    /* ---- Progress bar ---- */
     .progress-wrap  { margin-top: 14px; }
     .progress-bar-bg { height: 6px; background: #f0f4ff; border-radius: 99px; overflow: hidden; margin-top: 4px; }
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0057b8, #0a9396); border-radius: 99px; width: 0%; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
-
-    /* ---- Table ---- */
-    .table-wrap {
-      max-width: 960px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
-      overflow: hidden;
-    }
+    .table-wrap { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; }
     .table-search { padding: 16px 20px; border-bottom: 1px solid #f0f2f5; }
-    .table-search input {
-      width: 100%; border: 1px solid #e5e7eb; border-radius: 8px;
-      padding: 8px 12px; font-size: 0.85rem; color: #1a1a2e;
-      outline: none; transition: border-color 0.15s;
-    }
+    .table-search input { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #1a1a2e; outline: none; transition: border-color 0.15s; }
     .table-search input:focus { border-color: #0057b8; }
     .table-search input::placeholder { color: #c4c9d4; }
-
     table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-    thead th {
-      background: #f8fafc; padding: 12px 20px; text-align: left;
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.6px; color: #9ca3af; border-bottom: 1px solid #e5e7eb;
-      cursor: pointer; user-select: none; white-space: nowrap;
-    }
+    thead th { background: #f8fafc; padding: 12px 20px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #9ca3af; border-bottom: 1px solid #e5e7eb; cursor: pointer; user-select: none; white-space: nowrap; }
     thead th:hover { color: #0057b8; }
     thead th.sort-asc::after  { content: " ↑"; color: #0057b8; }
     thead th.sort-desc::after { content: " ↓"; color: #0057b8; }
@@ -175,17 +69,12 @@
     .row-num { color: #d1d5db; font-size: 0.8rem; font-weight: 400; min-width: 28px; }
     .location-badge { display: inline-block; background: #f0f4ff; color: #3b5ea6; border-radius: 6px; padding: 2px 8px; font-size: 0.78rem; font-weight: 500; }
     .table-footer { padding: 12px 20px; border-top: 1px solid #f0f2f5; font-size: 0.75rem; color: #9ca3af; text-align: right; }
-
-    footer {
-      max-width: 960px; margin: 48px auto 0;
-      text-align: center; font-size: 0.75rem; color: #c4c9d4;
-    }
+    footer { max-width: 960px; margin: 48px auto 0; text-align: center; font-size: 0.75rem; color: #c4c9d4; }
     footer a { color: #9ca3af; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-
 <header>
   <div class="logo-badge">
     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -201,8 +90,6 @@
   </div>
   <div class="last-updated" id="lastUpdated"></div>
 </header>
-
-<!-- Referrals -->
 <div class="section-title">Referrals</div>
 <div class="grid">
   <div class="card blue">
@@ -210,20 +97,18 @@
       <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     </div>
     <div class="card-label">Referrals from Dripify GPs</div>
-    <div class="card-value pending" id="val-dripify-gps">&#x2014;</div>
-    <div class="card-sub">Pending update</div>
+    <div class="card-value" id="val-dripify-gps">0</div>
+    <div class="card-sub">April 2026 – no matches in ZorgDomein</div>
   </div>
   <div class="card teal">
     <div class="card-icon">
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
-    <div class="card-label">Referrals &#x2013; Individual GPs - Dripify leads</div>
-    <div class="card-value pending" id="val-individual-gps">&#x2014;</div>
-    <div class="card-sub">Pending update</div>
+    <div class="card-label">Referrals – Individual GPs - Dripify leads</div>
+    <div class="card-value" id="val-individual-gps">0</div>
+    <div class="card-sub">April 2026 – no matches in ZorgDomein</div>
   </div>
 </div>
-
-<!-- Outcomes -->
 <div class="section-title">Outcomes</div>
 <div class="grid">
   <div class="card green">
@@ -254,39 +139,21 @@
     </div>
   </div>
 </div>
-
-<!-- Trend charts -->
 <div class="section-title">Trends</div>
 <div class="charts-grid">
   <div class="chart-card">
-    <div class="chart-header">
-      <div>
-        <div class="chart-title">Accepted Requests</div>
-        <div class="chart-subtitle">Weekly development</div>
-      </div>
-    </div>
-    <div class="chart-wrap">
-      <canvas id="chartAccepted" height="180"></canvas>
-    </div>
+    <div class="chart-header"><div><div class="chart-title">Accepted Requests</div><div class="chart-subtitle">Weekly development</div></div></div>
+    <div class="chart-wrap"><canvas id="chartAccepted" height="180"></canvas></div>
   </div>
   <div class="chart-card">
-    <div class="chart-header">
-      <div>
-        <div class="chart-title">Acceptance Rate</div>
-        <div class="chart-subtitle">Weekly development</div>
-      </div>
-    </div>
-    <div class="chart-wrap">
-      <canvas id="chartRate" height="180"></canvas>
-    </div>
+    <div class="chart-header"><div><div class="chart-title">Acceptance Rate</div><div class="chart-subtitle">Weekly development</div></div></div>
+    <div class="chart-wrap"><canvas id="chartRate" height="180"></canvas></div>
   </div>
 </div>
-
-<!-- GP Table -->
 <div class="section-title">Accepted GPs Overview</div>
 <div class="table-wrap">
   <div class="table-search">
-    <input type="text" id="gp-search" placeholder="Zoek op naam of locatie&#x2026;" oninput="filterTable()" />
+    <input type="text" id="gp-search" placeholder="Zoek op naam of locatie…" oninput="filterTable()" />
   </div>
   <table id="gp-table">
     <thead>
@@ -301,244 +168,104 @@
   </table>
   <div class="table-footer" id="table-footer">56 GPs</div>
 </div>
-
 <footer>
-  Nordic Health Group &nbsp;&#xb7;&nbsp;
-  <a href="https://dripify.io" target="_blank" rel="noopener">Dripify</a> data &nbsp;&#xb7;&nbsp;
+  Nordic Health Group &nbsp;·&nbsp;
+  <a href="https://dripify.io" target="_blank" rel="noopener">Dripify</a> data &nbsp;·&nbsp;
   Last updated: <span id="footerDate"></span>
 </footer>
-
-<!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-/* ---- Data ---- */
 const GPs = [
-  { name: "G Brouwer",                      location: "Tilburg",                   referrals: 0 },
-  { name: "Piet Lodewijkx",                 location: "Breda-Tilburg Area",        referrals: 0 },
-  { name: "Bob Van Riel",                   location: "Brabantine City Row",       referrals: 0 },
-  { name: "Richard Hoeben",                 location: "Oisterwijk",                referrals: 0 },
-  { name: "Leon Delmore Buirs",             location: "Amsterdam",                 referrals: 0 },
-  { name: "Claudia Schreurs",               location: "'s-Hertogenbosch",          referrals: 0 },
-  { name: "Ida Smailbegović",          location: "Eindhoven",                 referrals: 0 },
-  { name: "Laura Van Iersel",               location: "Eindhoven",                 referrals: 0 },
-  { name: "Freek Teller",                   location: "Brabantine City Row",       referrals: 0 },
-  { name: "Amon Alemyar",                   location: "Rotterdam",                 referrals: 0 },
-  { name: "André De Gruijl",          location: "Rotterdam and The Hague",   referrals: 0 },
-  { name: "Mieke Wolfs",                    location: "The Randstad",              referrals: 0 },
-  { name: "Judith Van De Sande",            location: "The Randstad",              referrals: 0 },
-  { name: "Jacco Kraak",                    location: "Putten",                    referrals: 0 },
-  { name: "Robin Heijnis",                  location: "Breda-Tilburg Area",        referrals: 0 },
-  { name: "Nienke Kessels",                 location: "Eindhoven",                 referrals: 0 },
-  { name: "Mohammed Saadulla",              location: "'s-Hertogenbosch Area",     referrals: 0 },
-  { name: "Kris Linssen",                   location: "Roermond",                  referrals: 0 },
-  { name: "Mohamed Ahmed",                  location: "Amsterdam",                 referrals: 0 },
-  { name: "Leroy Richardson",               location: "Breda",                     referrals: 0 },
-  { name: "Laura Vandermaesen",             location: "'s-Hertogenbosch Area",     referrals: 0 },
-  { name: "Thomas Van Ede",                 location: "The Randstad",              referrals: 0 },
-  { name: "Bregje Siebelt - Van Schijndel", location: "Boxtel",                    referrals: 0 },
-  { name: "Ronald De Haas",                 location: "Drecht Cities",             referrals: 0 },
-  { name: "Maxim Tettelaar",                location: "Netherlands",               referrals: 0 },
-  { name: "Hayri Demirkiran",               location: "Netherlands",               referrals: 0 },
-  { name: "Sabine Van Dijk",                location: "The Hague",                 referrals: 0 },
-  { name: "Jeroen Vogelaar",                location: "'s-Hertogenbosch",          referrals: 0 },
-  { name: "Inga Rehbein",                   location: "'s-Hertogenbosch",          referrals: 0 },
-  { name: "Miriam Van Der Spek",            location: "South Holland",             referrals: 0 },
-  { name: "Christian De Groot",             location: "Son en Breugel",            referrals: 0 },
-  { name: "Chris Otten",                    location: "Leiden",                    referrals: 0 },
-  { name: "Elseline Verheul",               location: "Netherlands",               referrals: 0 },
-  { name: "Claudine Van Lith",              location: "Deventer",                  referrals: 0 },
-  { name: "Saskia Thomassen",               location: "Eindhoven",                 referrals: 0 },
-  { name: "Ludie Breugelmans",              location: "Steenbergen",               referrals: 0 },
-  { name: "Linda Van Der Hoek",             location: "Netherlands",               referrals: 0 },
-  { name: "Ad Ahh Sanders",                 location: "Tilburg",                   referrals: 0 },
-  { name: "Nanja Danhof",                   location: "Utrecht",                   referrals: 0 },
-  { name: "Amy Van Der Doelen",             location: "'s-Hertogenbosch",          referrals: 0 },
-  { name: "Bernard Leenstra",               location: "The Randstad",              referrals: 0 },
-  { name: "Ingrid Van Thiel",               location: "Arnhem-Nijmegen Region",    referrals: 0 },
-  { name: "Margreeth Worp- Van Den Berg",   location: "The Randstad",              referrals: 0 },
-  { name: "Laïla Benbrahim-Akarriou",  location: "Uithoorn",                  referrals: 0 },
-  { name: "Miriam Smit",                    location: "Purmerend",                 referrals: 0 },
-  { name: "Rob Linssen",                    location: "Eindhoven",                 referrals: 0 },
-  { name: "Mirjam Mathot",                  location: "Utrecht",                   referrals: 0 },
-  { name: "Karlijn Slits",                  location: "Beek en Donk",              referrals: 0 },
-  { name: "Annelous Goedhart",              location: "Rotterdam",                 referrals: 0 },
-  { name: "Rianne Hampton-Blanckaert",      location: "Mierlo",                    referrals: 0 },
-  { name: "Bas Van Bavel",                  location: "Brabantine City Row",       referrals: 0 },
-  { name: "Alwin Ten Have",                 location: "Huizen",                    referrals: 0 },
-  { name: "Mirte Doornbos",                 location: "Maastricht",                referrals: 0 },
-  { name: "Bart Grimminck",                 location: "Breda",                     referrals: 0 },
-  { name: "Nienke Van Delden",              location: "Amersfoort",                referrals: 0 },
-  { name: "Jan Frans Mutsaerts",            location: "Netherlands",               referrals: 0 }
+  { name: "G Brouwer", location: "Tilburg", referrals: 0 },
+  { name: "Piet Lodewijkx", location: "Breda-Tilburg Area", referrals: 0 },
+  { name: "Bob Van Riel", location: "Brabantine City Row", referrals: 0 },
+  { name: "Richard Hoeben", location: "Oisterwijk", referrals: 0 },
+  { name: "Leon Delmore Buirs", location: "Amsterdam", referrals: 0 },
+  { name: "Claudia Schreurs", location: "'s-Hertogenbosch", referrals: 0 },
+  { name: "Ida Smailbegović", location: "Eindhoven", referrals: 0 },
+  { name: "Laura Van Iersel", location: "Eindhoven", referrals: 0 },
+  { name: "Freek Teller", location: "Brabantine City Row", referrals: 0 },
+  { name: "Amon Alemyar", location: "Rotterdam", referrals: 0 },
+  { name: "André De Gruijl", location: "Rotterdam and The Hague", referrals: 0 },
+  { name: "Mieke Wolfs", location: "The Randstad", referrals: 0 },
+  { name: "Judith Van De Sande", location: "The Randstad", referrals: 0 },
+  { name: "Jacco Kraak", location: "Putten", referrals: 0 },
+  { name: "Robin Heijnis", location: "Breda-Tilburg Area", referrals: 0 },
+  { name: "Nienke Kessels", location: "Eindhoven", referrals: 0 },
+  { name: "Mohammed Saadulla", location: "'s-Hertogenbosch Area", referrals: 0 },
+  { name: "Kris Linssen", location: "Roermond", referrals: 0 },
+  { name: "Mohamed Ahmed", location: "Amsterdam", referrals: 0 },
+  { name: "Leroy Richardson", location: "Breda", referrals: 0 },
+  { name: "Laura Vandermaesen", location: "'s-Hertogenbosch Area", referrals: 0 },
+  { name: "Thomas Van Ede", location: "The Randstad", referrals: 0 },
+  { name: "Bregje Siebelt - Van Schijndel", location: "Boxtel", referrals: 0 },
+  { name: "Ronald De Haas", location: "Drecht Cities", referrals: 0 },
+  { name: "Maxim Tettelaar", location: "Netherlands", referrals: 0 },
+  { name: "Hayri Demirkiran", location: "Netherlands", referrals: 0 },
+  { name: "Sabine Van Dijk", location: "The Hague", referrals: 0 },
+  { name: "Jeroen Vogelaar", location: "'s-Hertogenbosch", referrals: 0 },
+  { name: "Inga Rehbein", location: "'s-Hertogenbosch", referrals: 0 },
+  { name: "Miriam Van Der Spek", location: "South Holland", referrals: 0 },
+  { name: "Christian De Groot", location: "Son en Breugel", referrals: 0 },
+  { name: "Chris Otten", location: "Leiden", referrals: 0 },
+  { name: "Elseline Verheul", location: "Netherlands", referrals: 0 },
+  { name: "Claudine Van Lith", location: "Deventer", referrals: 0 },
+  { name: "Saskia Thomassen", location: "Eindhoven", referrals: 0 },
+  { name: "Ludie Breugelmans", location: "Steenbergen", referrals: 0 },
+  { name: "Linda Van Der Hoek", location: "Netherlands", referrals: 0 },
+  { name: "Ad Ahh Sanders", location: "Tilburg", referrals: 0 },
+  { name: "Nanja Danhof", location: "Utrecht", referrals: 0 },
+  { name: "Amy Van Der Doelen", location: "'s-Hertogenbosch", referrals: 0 },
+  { name: "Bernard Leenstra", location: "The Randstad", referrals: 0 },
+  { name: "Ingrid Van Thiel", location: "Arnhem-Nijmegen Region", referrals: 0 },
+  { name: "Margreeth Worp- Van Den Berg", location: "The Randstad", referrals: 0 },
+  { name: "Laïla Benbrahim-Akarriou", location: "Uithoorn", referrals: 0 },
+  { name: "Miriam Smit", location: "Purmerend", referrals: 0 },
+  { name: "Rob Linssen", location: "Eindhoven", referrals: 0 },
+  { name: "Mirjam Mathot", location: "Utrecht", referrals: 0 },
+  { name: "Karlijn Slits", location: "Beek en Donk", referrals: 0 },
+  { name: "Annelous Goedhart", location: "Rotterdam", referrals: 0 },
+  { name: "Rianne Hampton-Blanckaert", location: "Mierlo", referrals: 0 },
+  { name: "Bas Van Bavel", location: "Brabantine City Row", referrals: 0 },
+  { name: "Alwin Ten Have", location: "Huizen", referrals: 0 },
+  { name: "Mirte Doornbos", location: "Maastricht", referrals: 0 },
+  { name: "Bart Grimminck", location: "Breda", referrals: 0 },
+  { name: "Nienke Van Delden", location: "Amersfoort", referrals: 0 },
+  { name: "Jan Frans Mutsaerts", location: "Netherlands", referrals: 0 }
 ];
-
-/* ---- Historical trend data ---- */
-const weekLabels   = ["Week 1 (Apr 6)", "Week 2 (Apr 13)"];
+const weekLabels = ["Week 1 (Apr 6)", "Week 2 (Apr 13)"];
 const acceptedData = [35, 56];
-const rateData     = [20.1, 26.2];
-
-/* ---- Table ---- */
+const rateData = [20.1, 26.2];
 let sortCol = 0, sortDir = 1, filtered = [...GPs];
-
 function renderTable(data) {
   document.getElementById("gp-tbody").innerHTML = data.map((gp, i) =>
-    `<tr>
-      <td class="row-num">${i + 1}</td>
-      <td>${gp.name}</td>
-      <td><span class="location-badge">${gp.location}</span></td>
-      <td class="td-num">${gp.referrals}</td>
-    </tr>`
+    `<tr><td class="row-num">${i+1}</td><td>${gp.name}</td><td><span class="location-badge">${gp.location}</span></td><td class="td-num">${gp.referrals}</td></tr>`
   ).join("");
-  document.getElementById("table-footer").textContent =
-    data.length === GPs.length ? `${GPs.length} GPs` : `${data.length} van ${GPs.length} GPs`;
+  document.getElementById("table-footer").textContent = data.length === GPs.length ? `${GPs.length} GPs` : `${data.length} van ${GPs.length} GPs`;
 }
-
 function filterTable() {
   const q = document.getElementById("gp-search").value.toLowerCase();
   filtered = GPs.filter(gp => gp.name.toLowerCase().includes(q) || gp.location.toLowerCase().includes(q));
   renderTable(filtered);
 }
-
 function sortTable(col) {
-  const ids = ["", "th-name", "th-location", "th-referrals"];
-  document.querySelectorAll("thead th").forEach(th => th.classList.remove("sort-asc", "sort-desc"));
+  const ids = ["","th-name","th-location","th-referrals"];
+  document.querySelectorAll("thead th").forEach(th => th.classList.remove("sort-asc","sort-desc"));
   if (sortCol === col) { sortDir = -sortDir; } else { sortCol = col; sortDir = 1; }
   document.getElementById(ids[col]).classList.add(sortDir === 1 ? "sort-asc" : "sort-desc");
-  filtered.sort((a, b) => {
-    const keys = ["", "name", "location", "referrals"];
-    const key = keys[col];
-    if (a[key] < b[key]) return -sortDir;
-    if (a[key] > b[key]) return sortDir;
-    return 0;
-  });
+  filtered.sort((a,b) => { const keys=["","name","location","referrals"]; const k=keys[col]; return a[k]<b[k]?-sortDir:a[k]>b[k]?sortDir:0; });
   renderTable(filtered);
 }
-
 renderTable(GPs);
-
-/* ---- Charts ---- */
-const chartDefaults = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: "#1a1a2e",
-      padding: 10,
-      cornerRadius: 8,
-      titleFont: { size: 12, weight: "600" },
-      bodyFont: { size: 13 },
-      displayColors: false
-    }
-  },
-  scales: {
-    x: {
-      grid: { display: false },
-      ticks: { font: { size: 11 }, color: "#9ca3af" },
-      border: { display: false }
-    },
-    y: {
-      grid: { color: "#f3f4f6" },
-      ticks: { font: { size: 11 }, color: "#9ca3af" },
-      border: { display: false }
-    }
-  },
-  elements: {
-    point: { radius: 5, hoverRadius: 7, borderWidth: 2 },
-    line:  { tension: 0.3, borderWidth: 2.5 }
-  }
-};
-
-/* Accepted Requests chart */
+const chartDefaults = { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false }, tooltip: { backgroundColor: "#1a1a2e", padding: 10, cornerRadius: 8, titleFont: { size: 12, weight: "600" }, bodyFont: { size: 13 }, displayColors: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 11 }, color: "#9ca3af" }, border: { display: false } }, y: { grid: { color: "#f3f4f6" }, ticks: { font: { size: 11 }, color: "#9ca3af" }, border: { display: false } } }, elements: { point: { radius: 5, hoverRadius: 7, borderWidth: 2 }, line: { tension: 0.3, borderWidth: 2.5 } } };
 const ctxA = document.getElementById("chartAccepted").getContext("2d");
-const gradA = ctxA.createLinearGradient(0, 0, 0, 180);
-gradA.addColorStop(0, "rgba(42,157,79,0.18)");
-gradA.addColorStop(1, "rgba(42,157,79,0)");
-
-new Chart(ctxA, {
-  type: "line",
-  data: {
-    labels: weekLabels,
-    datasets: [{
-      data: acceptedData,
-      borderColor: "#2a9d4f",
-      backgroundColor: gradA,
-      pointBackgroundColor: "#2a9d4f",
-      pointBorderColor: "#fff",
-      fill: true
-    }]
-  },
-  options: {
-    ...chartDefaults,
-    scales: {
-      ...chartDefaults.scales,
-      y: {
-        ...chartDefaults.scales.y,
-        beginAtZero: true,
-        ticks: { ...chartDefaults.scales.y.ticks, stepSize: 10 }
-      }
-    },
-    plugins: {
-      ...chartDefaults.plugins,
-      tooltip: {
-        ...chartDefaults.plugins.tooltip,
-        callbacks: { label: ctx => ` ${ctx.parsed.y} accepted` }
-      }
-    }
-  }
-});
-
-/* Acceptance Rate chart */
+const gradA = ctxA.createLinearGradient(0,0,0,180); gradA.addColorStop(0,"rgba(42,157,79,0.18)"); gradA.addColorStop(1,"rgba(42,157,79,0)");
+new Chart(ctxA, { type: "line", data: { labels: weekLabels, datasets: [{ data: acceptedData, borderColor: "#2a9d4f", backgroundColor: gradA, pointBackgroundColor: "#2a9d4f", pointBorderColor: "#fff", fill: true }] }, options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, beginAtZero: true, ticks: { ...chartDefaults.scales.y.ticks, stepSize: 10 } } }, plugins: { ...chartDefaults.plugins, tooltip: { ...chartDefaults.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.parsed.y} accepted` } } } } });
 const ctxR = document.getElementById("chartRate").getContext("2d");
-const gradR = ctxR.createLinearGradient(0, 0, 0, 180);
-gradR.addColorStop(0, "rgba(224,123,57,0.18)");
-gradR.addColorStop(1, "rgba(224,123,57,0)");
-
-new Chart(ctxR, {
-  type: "line",
-  data: {
-    labels: weekLabels,
-    datasets: [{
-      data: rateData,
-      borderColor: "#e07b39",
-      backgroundColor: gradR,
-      pointBackgroundColor: "#e07b39",
-      pointBorderColor: "#fff",
-      fill: true
-    }]
-  },
-  options: {
-    ...chartDefaults,
-    scales: {
-      ...chartDefaults.scales,
-      y: {
-        ...chartDefaults.scales.y,
-        beginAtZero: true,
-        max: 40,
-        ticks: {
-          ...chartDefaults.scales.y.ticks,
-          stepSize: 10,
-          callback: v => v + "%"
-        }
-      }
-    },
-    plugins: {
-      ...chartDefaults.plugins,
-      tooltip: {
-        ...chartDefaults.plugins.tooltip,
-        callbacks: { label: ctx => ` ${ctx.parsed.y}%` }
-      }
-    }
-  }
-});
-
-/* ---- Progress bar & dates ---- */
-window.addEventListener("load", () => {
-  setTimeout(() => { document.getElementById("progress-fill").style.width = "26.2%"; }, 300);
-});
-
-const now = new Date();
-const opts = { day: "numeric", month: "long", year: "numeric" };
-const dateStr = now.toLocaleDateString("nl-NL", opts);
+const gradR = ctxR.createLinearGradient(0,0,0,180); gradR.addColorStop(0,"rgba(224,123,57,0.18)"); gradR.addColorStop(1,"rgba(224,123,57,0)");
+new Chart(ctxR, { type: "line", data: { labels: weekLabels, datasets: [{ data: rateData, borderColor: "#e07b39", backgroundColor: gradR, pointBackgroundColor: "#e07b39", pointBorderColor: "#fff", fill: true }] }, options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, beginAtZero: true, max: 40, ticks: { ...chartDefaults.scales.y.ticks, stepSize: 10, callback: v => v+"%" } } }, plugins: { ...chartDefaults.plugins, tooltip: { ...chartDefaults.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.parsed.y}%` } } } } });
+window.addEventListener("load", () => { setTimeout(() => { document.getElementById("progress-fill").style.width = "26.2%"; }, 300); });
+const now = new Date(); const opts = { day: "numeric", month: "long", year: "numeric" }; const dateStr = now.toLocaleDateString("nl-NL", opts);
 document.getElementById("lastUpdated").textContent = "Bijgewerkt: " + dateStr;
 document.getElementById("footerDate").textContent = dateStr;
 </script>
