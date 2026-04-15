@@ -7,14 +7,15 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; min-height: 100vh; padding: 40px 24px 60px; }
-    header { max-width: 900px; margin: 0 auto 36px; display: flex; align-items: center; gap: 16px; }
-    .logo-badge { width: 44px; height: 44px; background: #0057b8; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    header { max-width: 960px; margin: 0 auto 36px; display: flex; align-items: center; gap: 16px; }
+    .logo-badge { width: 44px; height: 44px; background: #0057b8; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .logo-badge svg { width: 26px; height: 26px; fill: #fff; }
     .header-text h1 { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.3px; color: #0d1b2a; }
     .header-text p { font-size: 0.85rem; color: #6b7280; margin-top: 2px; }
-    .last-updated { margin-left: auto; font-size: 0.78rem; color: #9ca3af; text-align: right; }
-    .grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .card { background: #ffffff; border-radius: 14px; padding: 28px 24px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .last-updated { margin-left: auto; font-size: 0.78rem; color: #9ca3af; text-align: right; white-space: nowrap; }
+    .section-title { max-width: 960px; margin: 40px auto 16px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #9ca3af; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
+    .grid { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 14px; padding: 28px 24px 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease; }
     .card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
     .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 14px 14px 0 0; }
     .card.blue::before { background: #0057b8; } .card.teal::before { background: #0a9396; } .card.green::before { background: #2a9d4f; } .card.orange::before { background: #e07b39; }
@@ -26,13 +27,21 @@
     .card-value { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; line-height: 1; color: #0d1b2a; }
     .card-value.pending { color: #d1d5db; font-size: 2rem; }
     .card-sub { margin-top: 8px; font-size: 0.78rem; color: #9ca3af; }
-    .section-title { max-width: 900px; margin: 40px auto 16px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #9ca3af; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
-    .progress-wrap { margin-top: 16px; }
+    .delta { display: inline-flex; align-items: center; gap: 3px; font-size: 0.78rem; font-weight: 600; padding: 2px 7px; border-radius: 20px; margin-top: 8px; }
+    .delta.up { background: #ecfdf3; color: #15803d; }
+    .delta.down { background: #fef2f2; color: #dc2626; }
+    .delta svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .charts-grid { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px; }
+    .chart-card { background: #fff; border-radius: 14px; padding: 24px 24px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); }
+    .chart-title { font-size: 0.85rem; font-weight: 700; color: #374151; }
+    .chart-subtitle { font-size: 0.72rem; color: #9ca3af; margin-top: 2px; margin-bottom: 20px; }
+    canvas { display: block; width: 100% !important; }
+    .progress-wrap { margin-top: 14px; }
     .progress-bar-bg { height: 6px; background: #f0f4ff; border-radius: 99px; overflow: hidden; margin-top: 4px; }
-    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0057b8, #0a9396); border-radius: 99px; width: 0%; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .table-wrap { max-width: 900px; margin: 0 auto; background: #ffffff; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; }
-    .table-search { padding: 16px 20px; border-bottom: 1px solid #f0f2f5; display: flex; align-items: center; gap: 10px; }
-    .table-search input { flex: 1; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #1a1a2e; outline: none; transition: border-color 0.15s; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0057b8, #0a9396); border-radius: 99px; width: 0%; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+    .table-wrap { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; }
+    .table-search { padding: 16px 20px; border-bottom: 1px solid #f0f2f5; }
+    .table-search input { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #1a1a2e; outline: none; transition: border-color 0.15s; }
     .table-search input:focus { border-color: #0057b8; }
     .table-search input::placeholder { color: #c4c9d4; }
     table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
@@ -49,12 +58,13 @@
     .row-num { color: #d1d5db; font-size: 0.8rem; font-weight: 400; min-width: 28px; }
     .location-badge { display: inline-block; background: #f0f4ff; color: #3b5ea6; border-radius: 6px; padding: 2px 8px; font-size: 0.78rem; font-weight: 500; }
     .table-footer { padding: 12px 20px; border-top: 1px solid #f0f2f5; font-size: 0.75rem; color: #9ca3af; text-align: right; }
-    footer { max-width: 900px; margin: 48px auto 0; text-align: center; font-size: 0.75rem; color: #c4c9d4; }
+    footer { max-width: 960px; margin: 48px auto 0; text-align: center; font-size: 0.75rem; color: #c4c9d4; }
     footer a { color: #9ca3af; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
+
 <header>
   <div class="logo-badge">
     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -65,6 +75,7 @@
   <div class="header-text"><h1>NL Huisarts Dashboard</h1><p>Dripify GP Referral Tracking</p></div>
   <div class="last-updated" id="lastUpdated"></div>
 </header>
+
 <div class="section-title">Referrals</div>
 <div class="grid">
   <div class="card blue">
@@ -80,21 +91,38 @@
     <div class="card-sub">Pending update</div>
   </div>
 </div>
+
 <div class="section-title">Outcomes</div>
 <div class="grid">
   <div class="card green">
     <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
     <div class="card-label">Accepted Requests</div>
-    <div class="card-value" id="val-accepted">35</div>
-    <div class="card-sub">Total accepted to date</div>
+    <div class="card-value" id="val-accepted">56</div>
+    <div class="delta up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>+21 vs last week</div>
   </div>
   <div class="card orange">
     <div class="card-icon"><svg viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
     <div class="card-label">Acceptance Rate</div>
-    <div class="card-value" id="val-rate">20.1%</div>
+    <div class="card-value" id="val-rate">26.2%</div>
+    <div class="delta up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>+6.1 pp vs last week</div>
     <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div></div>
   </div>
 </div>
+
+<div class="section-title">Trends</div>
+<div class="charts-grid">
+  <div class="chart-card">
+    <div class="chart-title">Accepted Requests</div>
+    <div class="chart-subtitle">Weekly development</div>
+    <canvas id="chartAccepted" height="180"></canvas>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">Acceptance Rate</div>
+    <div class="chart-subtitle">Weekly development</div>
+    <canvas id="chartRate" height="180"></canvas>
+  </div>
+</div>
+
 <div class="section-title">Accepted GPs Overview</div>
 <div class="table-wrap">
   <div class="table-search"><input type="text" id="gp-search" placeholder="Zoek op naam of locatie…" oninput="filterTable()" /></div>
@@ -109,32 +137,45 @@
   </table>
   <div class="table-footer" id="table-footer">35 GPs</div>
 </div>
+
 <footer>Nordic Health Group &nbsp;·&nbsp; <a href="https://dripify.io" target="_blank" rel="noopener">Dripify</a> data &nbsp;·&nbsp; Last updated: <span id="footerDate"></span></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-  const GPs=[{name:"Piet Lodewijkx",location:"Breda-Tilburg Area",referrals:0},{name:"Bob Van Riel",location:"Brabantine City Row",referrals:0},{name:"Richard Hoeben",location:"Oisterwijk",referrals:0},{name:"Leon Delmore Buirs",location:"Amsterdam",referrals:0},{name:"Claudia Schreurs",location:"'s-Hertogenbosch",referrals:0},{name:"Ida Smailbegović",location:"Eindhoven",referrals:0},{name:"Laura Van Iersel",location:"Eindhoven",referrals:0},{name:"Freek Teller",location:"Brabantine City Row",referrals:0},{name:"Amon Alemyar",location:"Rotterdam",referrals:0},{name:"André De Gruijl",location:"Rotterdam and The Hague",referrals:0},{name:"Mieke Wolfs",location:"The Randstad",referrals:0},{name:"Judith Van De Sande",location:"The Randstad",referrals:0},{name:"Jacco Kraak",location:"Putten",referrals:0},{name:"Robin Heijnis",location:"Breda-Tilburg Area",referrals:0},{name:"Nienke Kessels",location:"Eindhoven",referrals:0},{name:"Mohammed Saadulla",location:"'s-Hertogenbosch Area",referrals:0},{name:"Kris Linssen",location:"Roermond",referrals:0},{name:"Mohamed Ahmed",location:"Amsterdam",referrals:0},{name:"Laura Vandermaesen",location:"'s-Hertogenbosch Area",referrals:0},{name:"Thomas Van Ede",location:"The Randstad",referrals:0},{name:"Bregje Siebelt - Van Schijndel",location:"Boxtel",referrals:0},{name:"Ronald De Haas",location:"Drecht Cities",referrals:0},{name:"Sabine Van Dijk",location:"The Hague",referrals:0},{name:"Jeroen Vogelaar",location:"'s-Hertogenbosch",referrals:0},{name:"Inga Rehbein",location:"'s-Hertogenbosch",referrals:0},{name:"Christian De Groot",location:"Son en Breugel",referrals:0},{name:"Chris Otten",location:"Leiden",referrals:0},{name:"Claudine Van Lith",location:"Deventer",referrals:0},{name:"Saskia Thomassen",location:"Eindhoven",referrals:0},{name:"Ludie Breugelmans",location:"Steenbergen",referrals:0},{name:"Ad Ahh Sanders",location:"Tilburg",referrals:0},{name:"Nanja Danhof",location:"Utrecht",referrals:0},{name:"Bernard Leenstra",location:"The Randstad",referrals:0},{name:"Margreeth Worp- Van Den Berg",location:"The Randstad",referrals:0},{name:"Mirjam Mathot",location:"Utrecht",referrals:0}];
-  let sortCol=0,sortDir=1,filtered=[...GPs];
-  function renderTable(data){
-    document.getElementById("gp-tbody").innerHTML=data.map((gp,i)=>'<tr><td class="row-num">'+(i+1)+'</td><td>'+gp.name+'</td><td><span class="location-badge">'+gp.location+'</span></td><td class="td-num">'+gp.referrals+'</td></tr>').join("");
-    document.getElementById("table-footer").textContent=data.length===GPs.length?GPs.length+" GPs":data.length+" van "+GPs.length+" GPs";
-  }
-  function filterTable(){
-    const q=document.getElementById("gp-search").value.toLowerCase();
-    filtered=GPs.filter(gp=>gp.name.toLowerCase().includes(q)||gp.location.toLowerCase().includes(q));
-    renderTable(filtered);
-  }
-  function sortTable(col){
-    const ids=["","th-name","th-location","th-referrals"];
-    document.querySelectorAll("thead th").forEach(th=>th.classList.remove("sort-asc","sort-desc"));
-    if(sortCol===col){sortDir=-sortDir;}else{sortCol=col;sortDir=1;}
-    document.getElementById(ids[col]).classList.add(sortDir===1?"sort-asc":"sort-desc");
-    filtered.sort((a,b)=>{const keys=["","name","location","referrals"];const key=keys[col];if(a[key]<b[key])return -sortDir;if(a[key]>b[key])return sortDir;return 0;});
-    renderTable(filtered);
-  }
-  renderTable(GPs);
-  window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById("progress-fill").style.width="20.1%";},300);});
-  const now=new Date();const opts={day:"numeric",month:"long",year:"numeric"};const dateStr=now.toLocaleDateString("nl-NL",opts);
-  document.getElementById("lastUpdated").textContent="Bijgewerkt: "+dateStr;
-  document.getElementById("footerDate").textContent=dateStr;
+const GPs=[{name:"Piet Lodewijkx",location:"Breda-Tilburg Area",referrals:0},{name:"Bob Van Riel",location:"Brabantine City Row",referrals:0},{name:"Richard Hoeben",location:"Oisterwijk",referrals:0},{name:"Leon Delmore Buirs",location:"Amsterdam",referrals:0},{name:"Claudia Schreurs",location:"'s-Hertogenbosch",referrals:0},{name:"Ida Smailbegović",location:"Eindhoven",referrals:0},{name:"Laura Van Iersel",location:"Eindhoven",referrals:0},{name:"Freek Teller",location:"Brabantine City Row",referrals:0},{name:"Amon Alemyar",location:"Rotterdam",referrals:0},{name:"André De Gruijl",location:"Rotterdam and The Hague",referrals:0},{name:"Mieke Wolfs",location:"The Randstad",referrals:0},{name:"Judith Van De Sande",location:"The Randstad",referrals:0},{name:"Jacco Kraak",location:"Putten",referrals:0},{name:"Robin Heijnis",location:"Breda-Tilburg Area",referrals:0},{name:"Nienke Kessels",location:"Eindhoven",referrals:0},{name:"Mohammed Saadulla",location:"'s-Hertogenbosch Area",referrals:0},{name:"Kris Linssen",location:"Roermond",referrals:0},{name:"Mohamed Ahmed",location:"Amsterdam",referrals:0},{name:"Laura Vandermaesen",location:"'s-Hertogenbosch Area",referrals:0},{name:"Thomas Van Ede",location:"The Randstad",referrals:0},{name:"Bregje Siebelt - Van Schijndel",location:"Boxtel",referrals:0},{name:"Ronald De Haas",location:"Drecht Cities",referrals:0},{name:"Sabine Van Dijk",location:"The Hague",referrals:0},{name:"Jeroen Vogelaar",location:"'s-Hertogenbosch",referrals:0},{name:"Inga Rehbein",location:"'s-Hertogenbosch",referrals:0},{name:"Christian De Groot",location:"Son en Breugel",referrals:0},{name:"Chris Otten",location:"Leiden",referrals:0},{name:"Claudine Van Lith",location:"Deventer",referrals:0},{name:"Saskia Thomassen",location:"Eindhoven",referrals:0},{name:"Ludie Breugelmans",location:"Steenbergen",referrals:0},{name:"Ad Ahh Sanders",location:"Tilburg",referrals:0},{name:"Nanja Danhof",location:"Utrecht",referrals:0},{name:"Bernard Leenstra",location:"The Randstad",referrals:0},{name:"Margreeth Worp- Van Den Berg",location:"The Randstad",referrals:0},{name:"Mirjam Mathot",location:"Utrecht",referrals:0}];
+
+const weekLabels=["Week 1 (Apr 6)","Week 2 (Apr 13)"];
+const acceptedData=[35,56];
+const rateData=[20.1,26.2];
+
+let sortCol=0,sortDir=1,filtered=[...GPs];
+function renderTable(data){
+  document.getElementById("gp-tbody").innerHTML=data.map((gp,i)=>'<tr><td class="row-num">'+(i+1)+'</td><td>'+gp.name+'</td><td><span class="location-badge">'+gp.location+'</span></td><td class="td-num">'+gp.referrals+'</td></tr>').join("");
+  document.getElementById("table-footer").textContent=data.length===GPs.length?GPs.length+" GPs":data.length+" van "+GPs.length+" GPs";
+}
+function filterTable(){const q=document.getElementById("gp-search").value.toLowerCase();filtered=GPs.filter(gp=>gp.name.toLowerCase().includes(q)||gp.location.toLowerCase().includes(q));renderTable(filtered);}
+function sortTable(col){const ids=["","th-name","th-location","th-referrals"];document.querySelectorAll("thead th").forEach(th=>th.classList.remove("sort-asc","sort-desc"));if(sortCol===col){sortDir=-sortDir;}else{sortCol=col;sortDir=1;}document.getElementById(ids[col]).classList.add(sortDir===1?"sort-asc":"sort-desc");filtered.sort((a,b)=>{const keys=["","name","location","referrals"];const key=keys[col];if(a[key]<b[key])return -sortDir;if(a[key]>b[key])return sortDir;return 0;});renderTable(filtered);}
+renderTable(GPs);
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>{document.getElementById("progress-fill").style.width="26.2%";},300);
+
+  const sharedScales={x:{grid:{display:false},ticks:{font:{size:11},color:"#9ca3af"},border:{display:false}},y:{grid:{color:"#f3f4f6"},ticks:{font:{size:11},color:"#9ca3af"},border:{display:false}}};
+  const sharedPlugins={legend:{display:false},tooltip:{backgroundColor:"#1a1a2e",padding:10,cornerRadius:8,titleFont:{size:12,weight:"600"},bodyFont:{size:13},displayColors:false}};
+  const sharedElements={point:{radius:5,hoverRadius:7,borderWidth:2},line:{tension:0.3,borderWidth:2.5}};
+
+  const ctxA=document.getElementById("chartAccepted").getContext("2d");
+  const gradA=ctxA.createLinearGradient(0,0,0,180);gradA.addColorStop(0,"rgba(42,157,79,0.18)");gradA.addColorStop(1,"rgba(42,157,79,0)");
+  new Chart(ctxA,{type:"line",data:{labels:weekLabels,datasets:[{data:acceptedData,borderColor:"#2a9d4f",backgroundColor:gradA,pointBackgroundColor:"#2a9d4f",pointBorderColor:"#fff",fill:true}]},options:{responsive:true,maintainAspectRatio:true,plugins:{...sharedPlugins,tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>" "+ctx.parsed.y+" accepted"}}},scales:{x:sharedScales.x,y:{...sharedScales.y,beginAtZero:true,ticks:{...sharedScales.y.ticks,stepSize:10}}},elements:sharedElements}});
+
+  const ctxR=document.getElementById("chartRate").getContext("2d");
+  const gradR=ctxR.createLinearGradient(0,0,0,180);gradR.addColorStop(0,"rgba(224,123,57,0.18)");gradR.addColorStop(1,"rgba(224,123,57,0)");
+  new Chart(ctxR,{type:"line",data:{labels:weekLabels,datasets:[{data:rateData,borderColor:"#e07b39",backgroundColor:gradR,pointBackgroundColor:"#e07b39",pointBorderColor:"#fff",fill:true}]},options:{responsive:true,maintainAspectRatio:true,plugins:{...sharedPlugins,tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>" "+ctx.parsed.y+"%"}}},scales:{x:sharedScales.x,y:{...sharedScales.y,beginAtZero:true,max:40,ticks:{...sharedScales.y.ticks,stepSize:10,callback:v=>v+"%"}}},elements:sharedElements}});
+});
+
+const now=new Date();const opts={day:"numeric",month:"long",year:"numeric"};const dateStr=now.toLocaleDateString("nl-NL",opts);
+document.getElementById("lastUpdated").textContent="Bijgewerkt: "+dateStr;
+document.getElementById("footerDate").textContent=dateStr;
 </script>
 </body>
 </html>
